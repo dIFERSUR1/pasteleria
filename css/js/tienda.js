@@ -1,7 +1,5 @@
-import { Toast } from "https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js";
-
 // ==========================================
-// 1. Catálogo de Productos (Reto: Incluye Salados)
+// 1. Catálogo de Productos (Incluye 4 Salados del Reto)
 // ==========================================
 const productos = [
   { id: 1, nombre: "Torta Tres Leches", categoria: "tortas", precio: 45.00, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500" },
@@ -9,7 +7,7 @@ const productos = [
   { id: 3, nombre: "Alfajores Artesanales (12u)", categoria: "pasteles", precio: 22.00, img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500" },
   { id: 4, nombre: "Pie de Limón", categoria: "pasteles", precio: 38.00, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500" },
   
-  // Punto 1 del Reto: 4 productos de categoría "Salados"
+  // 4 productos de la categoría Salados
   { id: 5, nombre: "Empanada de Carne Criolla", categoria: "salados", precio: 8.50, img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500" },
   { id: 6, nombre: "Pan con Chicharrón", categoria: "salados", precio: 16.00, img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500" },
   { id: 7, nombre: "Quiche de Jamón y Queso", categoria: "salados", precio: 12.00, img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=500" },
@@ -17,33 +15,33 @@ const productos = [
 ];
 
 // ==========================================
-// 2. Funciones de Semana 10 (Funciones Flecha, Rest, Defecto, Recursividad)
+// 2. Funciones Semana 10 (Flecha, Rest, Default, Closure, Recursividad)
 // ==========================================
 
-// Flecha con return implícito para formato de moneda
+// Formato de moneda (Return implícito)
 const soles = (monto) => `S/ ${monto.toFixed(2)}`;
 
-// Parámetro Rest para sumar importes
+// Parámetro Rest para sumar
 const sumar = (...numeros) => numeros.reduce((a, n) => a + n, 0);
 
-// Recursividad para contar unidades totales en el carrito
+// Recursividad para contar unidades
 function contarUnidades(lista) {
   if (lista.length === 0) return 0;
   const [primero, ...resto] = lista;
   return primero.cantidad + contarUnidades(resto);
 }
 
-// Punto 2 del Reto: Función flecha con parámetro por defecto para aplicar descuento cuando subtotal > S/ 100
+// Función con parámetro por defecto para el descuento (> S/ 100)
 const aplicarDescuento = (total, porcentaje = 10) => {
   return total > 100 ? total * (porcentaje / 100) : 0;
 };
 
-// Closure para encapsular el estado privado del carrito
+// Closure para el estado privado del carrito
 function crearCarrito() {
   let items = [];
 
   return {
-    agregar(producto, cantidad = 1) { // Parámetro por defecto
+    agregar(producto, cantidad = 1) {
       const existe = items.find(it => it.id === producto.id);
       if (existe) {
         existe.cantidad += cantidad;
@@ -64,7 +62,7 @@ function crearCarrito() {
 const carrito = crearCarrito();
 
 // ==========================================
-// 3. Renderizado de Interfaz y Eventos
+// 3. Renderizado y Manejo de Eventos
 // ==========================================
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
@@ -76,8 +74,9 @@ const elemFilaDescuento = document.querySelector("#fila-descuento");
 const elemTotal = document.querySelector("#total-carrito");
 const inputBuscar = document.querySelector("#input-buscar");
 
-// Renderizar tarjetas de producto
+// Renderizar tarjetas de productos
 function renderizarProductos(lista) {
+  if (!contenedorProductos) return;
   contenedorProductos.innerHTML = "";
   
   if (lista.length === 0) {
@@ -108,7 +107,7 @@ function renderizarProductos(lista) {
     contenedorProductos.appendChild(col);
   });
 
-  // Event listener para botones de agregar
+  // Event listeners para agregar
   document.querySelectorAll(".btn-agregar").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const id = Number(e.target.dataset.id);
@@ -120,7 +119,7 @@ function renderizarProductos(lista) {
   });
 }
 
-// Actualizar la vista del Carrito y cálculo de totales
+// Actualizar Drawer y Totales
 function actualizarCarritoUI() {
   const items = carrito.obtenerItems();
   contenedorItemsCarrito.innerHTML = "";
@@ -144,7 +143,6 @@ function actualizarCarritoUI() {
       contenedorItemsCarrito.appendChild(div);
     });
 
-    // Eventos eliminar ítem
     document.querySelectorAll(".btn-eliminar").forEach(btn => {
       btn.addEventListener("click", (e) => {
         const id = Number(e.target.dataset.id);
@@ -154,9 +152,8 @@ function actualizarCarritoUI() {
     });
   }
 
-  // Cálculos de subtotal, descuento y total
   const subtotal = carrito.subtotal();
-  const descuento = aplicarDescuento(subtotal); // Aplica 10% si subtotal > 100
+  const descuento = aplicarDescuento(subtotal);
   const total = subtotal - descuento;
 
   badgeContador.textContent = carrito.unidades();
@@ -172,16 +169,19 @@ function actualizarCarritoUI() {
   elemTotal.textContent = soles(total);
 }
 
-// Punto 4 del Reto: Notificación flotante usando Toast de Bootstrap 6
+// Mostrar Toast de Bootstrap 6 de manera segura
 function mostrarToast(mensaje) {
   const toastElem = document.querySelector("#notificacion-toast");
   document.querySelector("#toast-mensaje").textContent = mensaje;
-  const toast = Toast.getOrCreateInstance(toastElem);
-  toast.show();
+  
+  if (window.bootstrap && window.bootstrap.Toast) {
+    const toast = window.bootstrap.Toast.getOrCreateInstance(toastElem);
+    toast.show();
+  }
 }
 
-// Filtros por categoría
-document.querySelector("#contenedor-filtros").addEventListener("click", (e) => {
+// Evento de Filtros
+document.querySelector("#contenedor-filtros")?.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     document.querySelectorAll("#contenedor-filtros .btn").forEach(b => b.classList.remove("active"));
     e.target.classList.add("active");
@@ -192,20 +192,26 @@ document.querySelector("#contenedor-filtros").addEventListener("click", (e) => {
   }
 });
 
-// Buscador en tiempo real
-inputBuscar.addEventListener("input", (e) => {
+// Evento Buscador
+inputBuscar?.addEventListener("input", (e) => {
   const texto = e.target.value.toLowerCase().trim();
   const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
   renderizarProductos(filtrados);
 });
 
-// Evento Formulario Personalizado
-document.querySelector("#form-personalizado").addEventListener("submit", (e) => {
+// Evento Formulario
+document.querySelector("#form-personalizado")?.addEventListener("submit", (e) => {
   e.preventDefault();
   alert("¡Gracias por tu solicitud! Te contactaremos pronto con la cotización.");
   e.target.reset();
 });
 
-// Inicialización de la tienda
+// Inicializar la carga al estar listo el DOM
+document.addEventListener("DOMContentLoaded", () => {
+  renderizarProductos(productos);
+  actualizarCarritoUI();
+});
+
+// Ejecución directa de seguridad por si el evento DOMContentLoaded ya pasó
 renderizarProductos(productos);
 actualizarCarritoUI();
