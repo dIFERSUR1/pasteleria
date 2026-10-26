@@ -1,0 +1,29 @@
+:root {
+  /* Punto 3 del Reto: Personalización de paleta con el color de marca (Frambuesa) */
+  --bs-primary-base: #b8325a;
+  --bs-primary-bg: #b8325a;
+  --bs-primary-fg: #8f2145;
+  --bs-primary-bg-subtle: #fbe3e8;
+  --bs-primary-contrast: #ffffff;
+
+  --bs-body-font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+.color-marca {
+  color: var(--bs-primary-base) !important;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.drawer {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Transición suave para botones de categoría */
+#contenedor-filtros .btn {
+  transition: all 0.2s ease-in-out;
+}
