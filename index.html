@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pastelería Delicia · Tienda en Línea</title>
+
+  <!-- CSS de Bootstrap 6 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" 
+        crossorigin="anonymous">
+
+  <!-- Estilos de marca personalizados -->
+  <link href="css/estilos.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Barra de Navegación -->
+  <nav class="navbar md:navbar-expand sticky-top bg-body border-bottom">
+    <div class="container py-2">
+      <a class="navbar-brand fw-bold fs-2xl color-marca" href="#">
+        🧁 Pastelería Delicia
+      </a>
+      
+      <div class="d-flex align-items-center gap-3 ms-auto">
+        <!-- Buscador -->
+        <input type="search" id="input-buscar" class="form-control" placeholder="Buscar productos..." aria-label="Buscar">
+
+        <!-- Botón Carrito (Abre Drawer) -->
+        <button class="btn btn-solid theme-primary position-relative d-flex align-items-center gap-2" 
+                data-bs-toggle="drawer" 
+                data-bs-target="#carrito" 
+                aria-label="Abrir Carrito">
+          🛒 Carrito
+          <span id="badge-contador" class="badge rounded-pill bg-light text-dark fw-bold">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Encabezado -->
+  <header class="bg-primary-subtle py-8 text-center border-bottom mb-7">
+    <div class="container">
+      <h1 class="fs-5xl fw-bold mb-2">Repostería y Salados Artesanales</h1>
+      <p class="fs-xl fg-secondary max-w-65ch mx-auto">
+        Disfruta de nuestros postres recién horneados y aperitivos salados con entrega a domicilio.
+      </p>
+    </div>
+  </header>
+
+  <main class="container mb-12">
+    <!-- Filtros por Categoría -->
+    <section class="d-flex justify-content-center gap-2 mb-7 flex-wrap" id="contenedor-filtros">
+      <button class="btn btn-outline theme-primary active" data-categoria="todos">Todos</button>
+      <button class="btn btn-outline theme-primary" data-categoria="tortas">Tortas</button>
+      <button class="btn btn-outline theme-primary" data-categoria="pasteles">Pasteles</button>
+      <button class="btn btn-outline theme-primary" data-categoria="salados">Salados 🥐</button>
+    </section>
+
+    <!-- Grilla de Productos -->
+    <section>
+      <div class="row row-cols-1 md:row-cols-2 lg:row-cols-3 g-6" id="contenedor-productos">
+        <!-- Generado dinámicamente desde tienda.js -->
+      </div>
+    </section>
+
+    <!-- Sección Pedido Especial -->
+    <section class="mt-12 p-8 border rounded-4 bg-body-tertiary">
+      <h2 class="fs-3xl fw-bold mb-3">🍰 Solicita una Torta Personalizada</h2>
+      <p class="fg-secondary mb-5">Escribe los detalles para tu evento y te cotizaremos en minutos.</p>
+      
+      <form id="form-personalizado" class="row g-4">
+        <div class="col-12 md:col-6">
+          <label for="nombre-cliente" class="form-label fw-semibold">Nombre Completo</label>
+          <input type="text" class="form-control" id="nombre-cliente" required placeholder="Ej. Ana Torres">
+        </div>
+        <div class="col-12 md:col-6">
+          <label for="sabor-torta" class="form-label fw-semibold">Sabor Preferido</label>
+          <select class="form-select" id="sabor-torta" required>
+            <option value="">Selecciona un sabor...</option>
+            <option value="Chocolate y Lucuma">Chocolate &amp; Lúduma</option>
+            <option value="Red Velvet">Red Velvet</option>
+            <option value="Tres Leches">Tres Leches de Maracuyá</option>
+            <option value="Vainilla y Frutos Rojos">Vainilla &amp; Frutos Rojos</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label for="detalles-torta" class="form-label fw-semibold">Detalles del diseño / Raciones</label>
+          <textarea class="form-control" id="detalles-torta" rows="3" placeholder="Ej. Para 20 personas, temática primaveral..."></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-solid theme-primary">Enviar Cotización</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Panel Lateral Carrito (Drawer de Bootstrap 6) -->
+  <dialog class="drawer drawer-end" id="carrito">
+    <div class="drawer-header border-bottom">
+      <h5 class="drawer-title fw-bold fs-xl">🛒 Tu Carrito de Compras</h5>
+      <button class="btn-close" data-bs-dismiss="drawer" aria-label="Cerrar"></button>
+    </div>
+    
+    <div class="drawer-body p-4 d-flex flex-column justify-content-between">
+      <div id="items-carrito" class="list-group list-group-flush mb-4 overflow-y-auto">
+        <!-- Ítems agregados -->
+      </div>
+
+      <div class="border-top pt-4">
+        <div class="d-flex justify-content-between fs-lg mb-2">
+          <span class="fg-secondary">Subtotal:</span>
+          <span id="subtotal-carrito" class="fw-bold">S/ 0.00</span>
+        </div>
+        <div class="d-flex justify-content-between fs-lg mb-2 text-success" id="fila-descuento" style="display: none;">
+          <span>Descuento (10%):</span>
+          <span id="monto-descuento" class="fw-bold">-S/ 0.00</span>
+        </div>
+        <div class="d-flex justify-content-between fs-2xl fw-bold mb-4">
+          <span>Total a Pagar:</span>
+          <span id="total-carrito" class="color-marca">S/ 0.00</span>
+        </div>
+        <button class="btn btn-solid theme-primary w-100 py-3 fs-lg fw-bold" id="btn-finalizar">
+          Finalizar Pedido
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Notificación Toast de Bootstrap 6 -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="notificacion-toast" class="toast align-items-center text-white bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body fs-md" id="toast-mensaje">
+          Producto añadido al carrito.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-body-tertiary py-6 border-top text-center fg-secondary fs-sm">
+    <div class="container">
+      &copy; 2026 Pastelería Delicia · Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- Script bundle de Bootstrap 6 (ES Module) -->
+  <script type="module" 
+          src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" 
+          crossorigin="anonymous"></script>
+          
+  <!-- Script de la aplicación -->
+  <script type="module" src="js/tienda.js"></script>
+</body>
+</html>
