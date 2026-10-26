@@ -1,5 +1,5 @@
 :root {
-  /* Punto 3 del Reto: Personalización de paleta con el color de marca (Frambuesa) */
+  /* Paleta Frambuesa requerida por el reto */
   --bs-primary-base: #b8325a;
   --bs-primary-bg: #b8325a;
   --bs-primary-fg: #8f2145;
@@ -23,7 +23,6 @@
   max-width: 420px;
 }
 
-/* Transición suave para botones de categoría */
 #contenedor-filtros .btn {
   transition: all 0.2s ease-in-out;
 }
