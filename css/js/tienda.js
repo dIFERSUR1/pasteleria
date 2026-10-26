@@ -1,6 +1,3 @@
-// ==========================================
-// 1. Catálogo de Productos (Incluye 4 Salados del Reto)
-// ==========================================
 const productos = [
   { id: 1, nombre: "Torta Tres Leches", categoria: "tortas", precio: 45.00, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500" },
   { id: 2, nombre: "Torta de Chocolate", categoria: "tortas", precio: 55.00, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500" },
@@ -14,17 +11,8 @@ const productos = [
   { id: 8, nombre: "Tamal Criollo Especial", categoria: "salados", precio: 9.00, img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500" }
 ];
 
-// ==========================================
-// 2. Funciones Semana 10 (Flecha, Rest, Default, Closure, Recursividad)
-// ==========================================
-
-// Formato de moneda (Return implícito)
 const soles = (monto) => `S/ ${monto.toFixed(2)}`;
-
-// Parámetro Rest para sumar
 const sumar = (...numeros) => numeros.reduce((a, n) => a + n, 0);
-
-// Recursividad para contar unidades
 function contarUnidades(lista) {
   if (lista.length === 0) return 0;
   const [primero, ...resto] = lista;
